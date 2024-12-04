@@ -136,4 +136,5 @@ def finetune_resnet18(train_dir, val_dir, num_epochs=10, batch_size=32, lr=0.001
     return model  # Return the fine-tuned model for further use
 
 # Example usage of the function:
-model = finetune_resnet18(train_dir='Dataset/images/train', val_dir='Dataset/images/val', num_epochs=10, batch_size=32, lr=0.001)
+if __name__ == "__main__":
+    model = finetune_resnet18(train_dir='Dataset/images/train', val_dir='Dataset/images/val', num_epochs=10, batch_size=32, lr=0.001)
