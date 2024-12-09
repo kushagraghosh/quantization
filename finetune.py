@@ -90,6 +90,7 @@ def finetune_resnet18(train_dir, val_dir, num_epochs=10, batch_size=32, lr=0.001
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=lr, momentum=0.9)
 
+    best_validation_accuracy = 0.0
     # Fine-tuning the model
     for epoch in range(num_epochs):
         model.train()  # Set the model to training mode
@@ -128,12 +129,12 @@ def finetune_resnet18(train_dir, val_dir, num_epochs=10, batch_size=32, lr=0.001
 
         print(f"Validation Accuracy: {100 * correct / total:.2f}%")
 
-    # Save the fine-tuned model
-    model_filename = 'resnet18_finetuned.pt'
-    torch.save(model.state_dict(), model_filename)
-    print(f"Model saved to {model_filename}")
+        if correct / total > best_validation_accuracy:
+            best_validation_accuracy = correct / total
+            # Save the fine-tuned model
+            model_filename = 'resnet18_finetuned.pt'
+            torch.save(model.state_dict(), model_filename)
+            print(f"Model saved to {model_filename}")
 
-    return model  # Return the fine-tuned model for further use
-
-# Example usage of the function:
-model = finetune_resnet18(train_dir='Dataset/images/train', val_dir='Dataset/images/val', num_epochs=10, batch_size=32, lr=0.001)
+if __name__ == "__main__":
+    model = finetune_resnet18(train_dir='Dataset/images/train', val_dir='Dataset/images/val', num_epochs=10, batch_size=32, lr=0.001)
